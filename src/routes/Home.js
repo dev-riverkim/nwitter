@@ -9,7 +9,7 @@ const Home = ({ userObj }) => {
   const [nweets, setNweets] = useState([]);
 
   useEffect(() => {
-    const q = query(collection(dbService, "nweets"), orderBy("createdAt"));
+    const q = query(collection(dbService, "nweets"), orderBy("createdAt", "desc"));
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
       const newArray = querySnapshot.docs.map((doc) => {
         return {
@@ -25,14 +25,14 @@ const Home = ({ userObj }) => {
   }, []);
 
   return (
-    <>
+    <div className="container">
       <NweetFactory userObj={userObj} />
-      <div>
+      <div style={{ marginTop: 30 }}>
         {nweets.map((nweet) => (
           <Nweet key={nweet.id} nweetObj={nweet} isOwner={nweet.creatorId === userObj.uid} />
         ))}
       </div>
-    </>
+    </div>
   );
 };
 
